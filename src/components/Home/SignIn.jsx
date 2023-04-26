@@ -2,11 +2,12 @@ import { View, StyleSheet, Button } from "react-native";
 import FormkikTextInput from "./form/FormikTextInput";
 import { Formik } from "formik";
 import Text from "../style/Text";
+import * as yup from "yup";
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 30,
-    height: "5%",
+    paddingTop: 40,
+    height: "1%",
     backgroundColor: "#000000",
     opacity: 0.7,
 
@@ -19,16 +20,13 @@ const styles = StyleSheet.create({
   },
   // ...
   submitView: {
-    marginTop: 20,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
+    marginTop: 10,
+    height: 38,
     backgroundColor: "blue",
-    height: 60,
-    width: "100%",
-    fontWeight: "bold",
   },
-  submit: { color: "white" },
+  submitButton: {
+    backgroundColor: "blue",
+  },
 });
 
 const LoginForm = ({ onSubmit }) => {
@@ -41,7 +39,7 @@ const LoginForm = ({ onSubmit }) => {
         secureTextEntry={true}
       />
       <View style={styles.submitView}>
-        <Text style={styles.submit}>submit</Text>
+        <Button style={styles.submitButton} onPress={onSubmit} title="Submit" />
       </View>
     </>
   );
@@ -52,10 +50,24 @@ const SignIn = () => {
     username: "",
     password: "",
   };
-  const onSubmit = () => {};
+
+  const validationSchema = yup.object().shape({
+    username: yup
+      .string()
+      .min(4, "username atleast 4 characters")
+      .required("username is required"),
+    password: yup.string().min(4).required("password is required"),
+  });
+  const onSubmit = () => {
+    console.log("submitted");
+  };
   return (
     <View style={styles.container}>
-      <Formik initialValues={initialValues} onSubmit={onSubmit}>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={onSubmit}
+        validationSchema={validationSchema}
+      >
         {({ handleSubmit }) => <LoginForm onSubmit={handleSubmit} />}
       </Formik>
     </View>

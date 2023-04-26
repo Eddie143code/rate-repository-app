@@ -10,22 +10,25 @@ const styles = StyleSheet.create({
     color: "black",
     borderWidth: 1,
     borderRadius: 5,
-    marginTop: 20,
+    marginTop: 2,
     padding: 20,
   },
   inputError: {
     borderColor: "black",
   },
+  errorContainer: {
+    color: "red",
+    marginTop: 2,
+    height: 20,
+  },
   errorText: {
     color: "red",
-    marginTop: 5,
   },
 });
 
-const FormikTextInput = ({ name, ...props }) => {
+const FormikTextInput = ({ name }) => {
   const [field, meta, helpers] = useField(name);
   const showError = meta.touched && meta.error;
-
   return (
     <>
       <TextInput
@@ -33,10 +36,11 @@ const FormikTextInput = ({ name, ...props }) => {
         onChangeText={(value) => helpers.setValue(value)}
         onBlur={() => helpers.setTouched(true)}
         value={field.value}
-        error={showError}
-        {...props}
+        error={meta.error}
       />
-      {showError && <Text style={styles.errorText}>{meta.error}</Text>}
+      <Text style={styles.errorContainer}>
+        {showError && <Text style={styles.errorText}>{meta.error}</Text>}
+      </Text>
     </>
   );
 };
