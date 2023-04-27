@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { FlatList, View, StyleSheet } from "react-native";
 import RepositoryItem from "./RepositoryItem";
 import useRepositories from "../../hooks/useRepositories";
+import { useQuery } from "@apollo/client";
+import { GET_REPOSITORIES } from "../../graphql/queries";
 const styles = StyleSheet.create({
   separator: {
     marginTop: 30,
@@ -20,11 +22,12 @@ const ItemSeparator = ({ data }) => {
 };
 
 const RepositoryList = () => {
-  const { repositories } = useRepositories();
+  const list = useQuery(GET_REPOSITORIES);
+  console.log(list.data.repositories);
 
   // Get the nodes from the edges array
-  const repositoryNodes = repositories
-    ? repositories.edges.map((edge) => edge.node)
+  const repositoryNodes = list.data.repositories
+    ? list.data.repositories.edges.map((edge) => edge.node)
     : [];
 
   return (
