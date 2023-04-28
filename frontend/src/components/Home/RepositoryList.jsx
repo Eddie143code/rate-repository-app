@@ -23,10 +23,10 @@ const ItemSeparator = ({ data }) => {
 
 const RepositoryList = () => {
   const list = useQuery(GET_REPOSITORIES);
-  console.log(list.data.repositories);
+  //console.log(list.data);
 
   // Get the nodes from the edges array
-  const repositoryNodes = list.data.repositories
+  const repositoryNodes = list.data
     ? list.data.repositories.edges.map((edge) => edge.node)
     : [];
 

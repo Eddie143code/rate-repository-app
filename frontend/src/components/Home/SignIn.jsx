@@ -3,6 +3,8 @@ import FormkikTextInput from "./form/FormikTextInput";
 import { Formik } from "formik";
 import Text from "../style/Text";
 import * as yup from "yup";
+import useSignIn from "../../hooks/useSignIn";
+import { useNavigate } from "react-router-native";
 
 const styles = StyleSheet.create({
   container: {
@@ -58,8 +60,21 @@ const SignIn = () => {
       .required("username is required"),
     password: yup.string().min(4).required("password is required"),
   });
-  const onSubmit = () => {
-    console.log("submitted");
+  const navigate = useNavigate();
+  const [signIn, result] = useSignIn();
+
+  const onSubmit = async (values) => {
+    const { username, password } = values;
+
+    try {
+      const response = await signIn({ username, password });
+
+      if (response) {
+        navigate("/");
+      }
+    } catch (error) {
+      console.log("in onsubmit:", error);
+    }
   };
   return (
     <View style={styles.container}>

@@ -47,7 +47,6 @@ const RepositoryItem = ({ item }) => {
       marginBottom: 5,
     },
   });
-  console.log(item);
   const getFormatNumber = (number) => {
     const roundedNumber = Math.round(number / 100) / 10;
     return `${roundedNumber.toString()}k`;
